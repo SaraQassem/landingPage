@@ -19,7 +19,10 @@
 */
 
 //  get the <main> element from the HTML
-const main = document.getElementsByTagName('main')[0];
+const main = document.getElementsByTagName('main')[0],
+
+    //  get the navbar list from the HTML
+    navList = document.getElementById('navbar__list');
 
 /**
  * End Global Variables
@@ -54,6 +57,44 @@ let getSections = () => {
 
 // build the nav
 
+//  This function will dynamically create a navigation menu
+//  based on the sections of the page
+let buildNav = () => {
+
+    //  get all the <section> elements from the HTML
+    let sections = getSections(),
+
+        //  create a document fragment to append the nav links to it
+        virtualDOM = document.createDocumentFragment();
+
+    //  loop through all the sections found in the page
+    for (let section of sections) {
+
+        //  create a list item element
+        let navItem = document.createElement('li'),
+
+            //  create a link element
+            navLink = document.createElement('a');
+
+        //  get the section name from the data-nav attribute
+        //  and put it in the link text
+        navLink.innerText = section.dataset.nav;
+
+        //  add the class 'menu__link' to the nav link
+        navLink.className = 'menu__link';
+
+        //  append the nav link <a> to the list item <li>
+        navItem.appendChild(navLink);
+
+        //  append the list item <li> to the document fragment
+        virtualDOM.appendChild(navItem);
+    }
+
+    //  after adding all the section names to the document fragment,
+    //  append the fragment to the navbar list
+    navList.appendChild(virtualDOM);
+};
+
 
 // Add class 'active' to section when near top of viewport
 
@@ -68,7 +109,7 @@ let getSections = () => {
 */
 
 // Build menu
-
+buildNav();
 // Scroll to section on link click
 
 // Set sections as active
