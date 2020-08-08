@@ -24,6 +24,8 @@ const main = document.getElementsByTagName('main')[0],
     //  get the navbar list from the HTML
     navList = document.getElementById('navbar__list');
 
+let pageSections = [];
+
 /**
  * End Global Variables
  * Start Helper Functions
@@ -34,19 +36,14 @@ const main = document.getElementsByTagName('main')[0],
 //  then stores them into an array
 let getSections = () => {
 
-    //  create an empty array to store the page sections
-    let sectionsArr = [];
-
     //  get the sections from the DOM
     const sectionElements = main.getElementsByTagName('section');
 
     //  store the sections in the array
     for (let i = 0; i < sectionElements.length; i++) {
 
-        sectionsArr.push(sectionElements.item(i));
+        pageSections.push(sectionElements.item(i));
     }
-
-    return sectionsArr;
 };
 
 /**
@@ -62,13 +59,13 @@ let getSections = () => {
 let buildNav = () => {
 
     //  get all the <section> elements from the HTML
-    let sections = getSections(),
+    getSections();
 
-        //  create a document fragment to append the nav links to it
-        virtualDOM = document.createDocumentFragment();
+    //  create a document fragment to append the nav links to it
+    let virtualDOM = document.createDocumentFragment();
 
     //  loop through all the sections found in the page
-    for (let section of sections) {
+    for (let section of pageSections) {
 
         //  create a list item element
         let navItem = document.createElement('li'),
