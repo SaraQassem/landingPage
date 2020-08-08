@@ -94,7 +94,27 @@ let buildNav = () => {
 
 
 // Add class 'active' to section when near top of viewport
+let activateSection = () => {
 
+    //  loop through all the sections in the page
+    for (let section of pageSections) {
+
+        //  get the top offset of the section from the viewport
+        let topOffset = section.getBoundingClientRect().y;
+
+        //  if the offset is between 0 and 200,
+        //  delete the active class from all the sections,
+        //  then mark this section as an active
+        if (topOffset > 0 && topOffset < 150) {
+
+            document.getElementsByClassName('activeSection')[0].className = '';
+
+            section.className = 'activeSection';
+
+            break;
+        }
+    }
+};
 
 // Scroll to anchor ID using scrollTO event
 
@@ -110,5 +130,5 @@ buildNav();
 // Scroll to section on link click
 
 // Set sections as active
-
+window.addEventListener('scroll', activateSection)
 
