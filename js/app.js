@@ -102,14 +102,15 @@ let activateSection = () => {
         //  get the top offset of the section from the viewport
         let topOffset = section.getBoundingClientRect().y;
 
-        //  if the offset is between 0 and 200,
+        //  if the offset is between 0 and 250,
         //  delete the active class from all the sections,
         //  then mark this section as an active
-        if (topOffset > 0 && topOffset < 150) {
+        if (topOffset > 0 && topOffset < 250) {
 
-            document.getElementsByClassName('activeSection')[0].className = '';
+            document.getElementsByClassName('activeSection')[0]
+                .classList.remove('activeSection');
 
-            section.className = 'activeSection';
+            section.classList.add('activeSection');
 
             break;
         }
@@ -130,5 +131,5 @@ buildNav();
 // Scroll to section on link click
 
 // Set sections as active
-window.addEventListener('scroll', activateSection)
+window.addEventListener('scroll', activateSection);
 
