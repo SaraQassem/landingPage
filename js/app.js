@@ -77,6 +77,9 @@ let buildNav = () => {
         //  and put it in the link text
         navLink.innerText = section.dataset.nav;
 
+        //  add the 'href' attribute to anchor to the related section's ID
+        navLink.setAttribute('href', `#${section.id}`);
+
         //  add the class 'menu__link' to the nav link
         navLink.className = 'menu__link';
 
@@ -117,8 +120,32 @@ let activateSection = () => {
     }
 };
 
-// Scroll to anchor ID using scrollTO event
 
+// Scroll to anchor ID using scrollTO event
+let scrollToSection = (evt)=> {
+
+    //  check if the clicked item is the navigation link
+    if (evt.target.tagName === 'A') {
+
+        //  remove the default click behaviour
+        evt.preventDefault();
+
+        //  get the section that the clicked link anchors to
+        const relatedSection = document.getElementById(
+            evt.target.getAttribute('href').replace('#', '')),
+
+            //  get the top offset of the related section
+            relatedSectionTopOffset = relatedSection.offsetTop;
+
+        //  scroll the window smoothly to the calculated top offset
+        window.scrollTo({
+
+            top: relatedSectionTopOffset,
+
+            behavior: 'smooth'
+        });
+    }
+};
 
 /**
  * End Main Functions
@@ -129,6 +156,7 @@ let activateSection = () => {
 // Build menu
 buildNav();
 // Scroll to section on link click
+navList.addEventListener('click', scrollToSection);
 
 // Set sections as active
 window.addEventListener('scroll', activateSection);
