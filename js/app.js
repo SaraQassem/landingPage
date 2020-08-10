@@ -22,7 +22,10 @@
 const main = document.getElementsByTagName('main')[0],
 
     //  get the navbar list from the HTML
-    navList = document.getElementById('navbar__list');
+    navList = document.getElementById('navbar__list'),
+
+    //  get all the links in the navbar
+    navLinks = navList.getElementsByClassName('menu__link');
 
 let pageSections = [];
 
@@ -90,6 +93,9 @@ let buildNav = () => {
         virtualDOM.appendChild(navItem);
     }
 
+    //  add the class 'activeNavLink' by default to the first link in the navbar
+    virtualDOM.querySelector('a').classList.add('activeNavLink');
+
     //  after adding all the section names to the document fragment,
     //  append the fragment to the navbar list
     navList.appendChild(virtualDOM);
@@ -105,15 +111,34 @@ let activateSection = () => {
         //  get the top offset of the section from the viewport
         let topOffset = section.getBoundingClientRect().y;
 
-        //  if the offset is between 0 and 250,
-        //  delete the active class from all the sections,
-        //  then mark this section as an active
+        //  if the offset is between 0 and 250, do the following:
         if (topOffset > 0 && topOffset < 250) {
 
+            //  remove the 'activeSection' class from the last active section
             document.getElementsByClassName('activeSection')[0]
                 .classList.remove('activeSection');
 
+            //  add the 'activeSection' class to the current active section
             section.classList.add('activeSection');
+
+            //  loop through all the navigation links,
+            //  to find the link that anchors to the current active section
+            for (let navLink of navLinks) {
+
+                // get the value of the 'href' attribute
+                let navHref = navLink.getAttribute('href').replace('#', '');
+
+                //  check if the value of the 'href' equals the one of the section ID
+                if (navHref === section.id) {
+
+                    //  remove the 'activeNavLink' from the last active link
+                    document.getElementsByClassName('activeNavLink')[0]
+                        .classList.remove('activeNavLink');
+
+                    //  add the class 'activeNavLink' to the current active link
+                    navLink.classList.add('activeNavLink');
+                }
+            }
 
             break;
         }
