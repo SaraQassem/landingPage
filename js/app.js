@@ -49,6 +49,30 @@ let getSections = () => {
     }
 };
 
+//  this function takes the current active section,
+//  and adds the 'activeNavLink' class to it's related link in the navbar
+let activateLink = (relatedSection) => {
+
+    //  loop through all the navigation links,
+    //  to find the link that anchors to the related section
+    for (let navLink of navLinks) {
+
+        // get the value of the 'href' attribute
+        let navHref = navLink.getAttribute('href').replace('#', '');
+
+        //  check if the value of the 'href' equals the one of the section's ID
+        if (navHref === relatedSection.id) {
+
+            //  remove the 'activeNavLink' from the last active link
+            document.getElementsByClassName('activeNavLink')[0]
+                .classList.remove('activeNavLink');
+
+            //  add the class 'activeNavLink' to the current active link
+            navLink.classList.add('activeNavLink');
+        }
+    }
+}
+
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -121,24 +145,7 @@ let activateSection = () => {
             //  add the 'activeSection' class to the current active section
             section.classList.add('activeSection');
 
-            //  loop through all the navigation links,
-            //  to find the link that anchors to the current active section
-            for (let navLink of navLinks) {
-
-                // get the value of the 'href' attribute
-                let navHref = navLink.getAttribute('href').replace('#', '');
-
-                //  check if the value of the 'href' equals the one of the section ID
-                if (navHref === section.id) {
-
-                    //  remove the 'activeNavLink' from the last active link
-                    document.getElementsByClassName('activeNavLink')[0]
-                        .classList.remove('activeNavLink');
-
-                    //  add the class 'activeNavLink' to the current active link
-                    navLink.classList.add('activeNavLink');
-                }
-            }
+            activateLink(section);
 
             break;
         }
