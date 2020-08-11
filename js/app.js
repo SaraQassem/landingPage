@@ -135,8 +135,8 @@ let activateSection = () => {
         //  get the top offset of the section from the viewport
         let topOffset = section.getBoundingClientRect().y;
 
-        //  if the offset is between 0 and 250, do the following:
-        if (topOffset > 0 && topOffset < 250) {
+        //  if the offset is between 0 and 200 (the section is near the top of the viewport)
+        if (topOffset >= 0 && topOffset <= 200) {
 
             //  remove the 'activeSection' class from the last active section
             document.getElementsByClassName('activeSection')[0]
@@ -145,6 +145,7 @@ let activateSection = () => {
             //  add the 'activeSection' class to the current active section
             section.classList.add('activeSection');
 
+            //  mark the related navigation link as active
             activateLink(section);
 
             break;
