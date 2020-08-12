@@ -108,6 +108,24 @@ section {
     color: #fff;
 }
 
+/*Back to Top button Styles*/
+#scrollToTop {
+    box-sizing: border-box;
+    width: 80px;
+    height: 80px;
+    font-size: 60px;
+    line-height: 80px;
+    text-align: center;
+    background: #ff8a5c;
+    border-radius: 50%;
+    display: inline-block;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 10;
+    cursor: pointer;
+    visibility: hidden;
+}
 
 /* ---- Theme Rules ---- */
 /* Landing Container Styles */
