@@ -80,6 +80,19 @@ let activateLink = (relatedSection) => {
     }
 }
 
+
+//  this function scrolls the window smoothly to the given top offset
+let scrollToTopSmoothly = (topOffset) => {
+
+    window.scrollTo({
+
+        top: topOffset,
+
+        behavior: "smooth"
+    })
+
+};
+
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -178,12 +191,7 @@ let scrollToSection = (evt)=> {
             relatedSectionTopOffset = relatedSection.offsetTop;
 
         //  scroll the window smoothly to the calculated top offset
-        window.scrollTo({
-
-            top: relatedSectionTopOffset,
-
-            behavior: 'smooth'
-        });
+        scrollToTopSmoothly(relatedSectionTopOffset);
     }
 };
 
@@ -227,13 +235,5 @@ window.addEventListener('scroll', activateSection);
 window.addEventListener('scroll', showBackToTopButton);
 
 //  when the button is clicked, scroll smoothly to the top of the document
-backToTopButton.addEventListener('click', () => {
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-    })
-});
+backToTopButton.addEventListener('click', scrollToTopSmoothly);
 
