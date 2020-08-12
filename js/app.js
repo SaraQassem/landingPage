@@ -25,9 +25,16 @@ const main = document.getElementsByTagName('main')[0],
     navList = document.getElementById('navbar__list'),
 
     //  get all the links in the navbar
-    navLinks = navList.getElementsByClassName('menu__link');
+    navLinks = navList.getElementsByClassName('menu__link'),
 
-let pageSections = [];
+    //  get the 'Back to Top' button from the HTML
+    backToTopButton = document.getElementById('scrollToTop');
+
+
+let pageSections = [],
+
+    //  calculate the height where the 'Back to Top' button should appear
+    bodyFoldHeight = (document.body.clientHeight) / 3;
 
 /**
  * End Global Variables
@@ -180,6 +187,27 @@ let scrollToSection = (evt)=> {
     }
 };
 
+
+//  This function calculates the top offset of the body from the viewport,
+//  and if the offset is bigger than the height where the 'back to Top' button should appear (bodyFoldHeight),
+//  it adds the 'showButton' class to it.
+//  Else when the user scrolls back to the top where the top offset of the body is less than bodyFoldHeight,
+//  then the button should be hidden again by removing the 'showButton' class
+let showBackToTopButton = () => {
+
+    let bodyOffset = document.body.getBoundingClientRect().y;
+
+    if (Math.abs(bodyOffset) > bodyFoldHeight) {
+
+        backToTopButton.classList.add('showButton');
+    }
+
+    else {
+
+        backToTopButton.classList.remove('showButton');
+    }
+};
+
 /**
  * End Main Functions
  * Begin Events
@@ -188,9 +216,24 @@ let scrollToSection = (evt)=> {
 
 // Build menu
 buildNav();
-// Scroll to section on link click
+
+//  Scroll to section on link click
 navList.addEventListener('click', scrollToSection);
 
-// Set sections as active
+//  Set sections as active
 window.addEventListener('scroll', activateSection);
+
+//  show the 'Back to Top' button when the user scrolls to the bottom of the page
+window.addEventListener('scroll', showBackToTopButton);
+
+//  when the button is clicked, scroll smoothly to the top of the document
+backToTopButton.addEventListener('click', () => {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+    })
+});
 

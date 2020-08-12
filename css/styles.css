@@ -127,6 +127,11 @@ section {
     visibility: hidden;
 }
 
+#scrollToTop.showButton {
+
+    visibility: visible;
+}
+
 /* ---- Theme Rules ---- */
 /* Landing Container Styles */
 .landing__container {
