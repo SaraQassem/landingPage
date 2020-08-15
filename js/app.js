@@ -18,8 +18,11 @@
  * 
 */
 
-//  get the <main> element from the HTML
-const main = document.getElementsByTagName('main')[0],
+//  get the <header> element from the HTML
+const header = document.getElementsByClassName('page__header').item(0),
+
+    //  get the <main> element from the HTML
+    main = document.getElementsByTagName('main')[0],
 
     //  get the navbar list from the HTML
     navList = document.getElementById('navbar__list'),
@@ -34,7 +37,10 @@ const main = document.getElementsByTagName('main')[0],
 let pageSections = [],
 
     //  calculate the height where the 'Back to Top' button should appear
-    bodyFoldHeight = (document.body.clientHeight) / 3;
+    bodyFoldHeight = (document.body.clientHeight) / 3,
+
+    //  setup isScrolling variable
+    isScrolling;
 
 /**
  * End Global Variables
@@ -216,6 +222,36 @@ let showBackToTopButton = () => {
     }
 };
 
+//  this function toggles the display of the header,
+//  if the header is hidden, it removes the hiding class to display it,
+//  if the header is shown, it adds the hiding class after a delay of 800ms
+let toggleHeader = () => {
+
+    //  if the header is hidden,
+    //  remove the class 'hideHeader' to show it
+    if (header.classList.contains('hideHeader')) {
+
+        header.classList.remove('hideHeader');
+    }
+
+    //  if the header is shown,
+    //  hide it after the user stops scrolling with a delay of 800ms
+    else {
+
+        //  clear the stop scrolling timeout
+        window.clearTimeout(isScrolling);
+
+        //  set a timeout to run after scrolling ends
+        isScrolling = setTimeout(function() {
+
+            //  hide the header
+            header.classList.add('hideHeader');
+
+            //  set the delay
+        }, 800);
+    }
+}
+
 /**
  * End Main Functions
  * Begin Events
@@ -233,6 +269,9 @@ window.addEventListener('scroll', activateSection);
 
 //  show the 'Back to Top' button when the user scrolls to the bottom of the page
 window.addEventListener('scroll', showBackToTopButton);
+
+//  hide the header after the user stops scrolling
+window.addEventListener('scroll', toggleHeader);
 
 //  when the button is clicked, scroll smoothly to the top of the document
 backToTopButton.addEventListener('click', scrollToTopSmoothly);
