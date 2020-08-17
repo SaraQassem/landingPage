@@ -225,7 +225,7 @@ let showBackToTopButton = () => {
 //  this function toggles the display of the header,
 //  if the header is hidden, it removes the hiding class to display it,
 //  if the header is shown, it adds the hiding class after a delay of 800ms
-let toggleHeader = () => {
+let toggleHeaderScroll = () => {
 
     //  if the header is hidden,
     //  remove the class 'hideHeader' to show it
@@ -278,7 +278,7 @@ window.addEventListener('scroll', activateSection);
 window.addEventListener('scroll', showBackToTopButton);
 
 //  hide the header after the user stops scrolling
-window.addEventListener('scroll', toggleHeader);
+window.addEventListener('scroll', toggleHeaderScroll);
 
 //  when the button is clicked, scroll smoothly to the top of the document
 backToTopButton.addEventListener('click', scrollToTopSmoothly);
