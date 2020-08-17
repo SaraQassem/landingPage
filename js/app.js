@@ -244,8 +244,15 @@ let toggleHeader = () => {
         //  set a timeout to run after scrolling ends
         isScrolling = setTimeout(function() {
 
-            //  hide the header
-            header.classList.add('hideHeader');
+            //  get the top offset of the <body> from the viewport
+            let bodyTopOffset = document.body.getBoundingClientRect().y;
+
+            //  if the user is not in the top of the page, hide the header
+            if (!(bodyTopOffset >= 0 && bodyTopOffset <= 224)) {
+
+                //  hide the header
+                header.classList.add('hideHeader');
+            }
 
             //  set the delay
         }, 800);
