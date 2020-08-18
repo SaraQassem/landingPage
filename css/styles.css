@@ -99,7 +99,7 @@ section {
 
 .page__header.hideHeader {
 
-    display: none;
+    opacity: 0;
     transition: ease 0.3s all;
 }
 

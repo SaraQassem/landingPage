@@ -223,8 +223,8 @@ let showBackToTopButton = () => {
 };
 
 //  this function toggles the display of the header,
-//  if the header is hidden, it removes the hiding class to display it,
-//  if the header is shown, it adds the hiding class after a delay of 800ms
+//  if the header is hidden, it removes the 'hideHeader' class to display it,
+//  if the header is shown, it adds the 'hideHeader' class with a delay of 800ms after the scrolling stop
 let toggleHeaderScroll = () => {
 
     //  if the header is hidden,
@@ -259,6 +259,29 @@ let toggleHeaderScroll = () => {
     }
 }
 
+
+//  this function toggles the display of the header,
+//  if the header is hidden, it removes the 'hideHeader' class to display it,
+//  if the header is shown, it adds the 'hideHeader' class to hide it
+let toggleHeaderMouse = () => {
+
+    //  get the top offset of the <body> from the viewport
+    let bodyTopOffset = document.body.getBoundingClientRect().y;
+
+    //  if the header is hidden,
+    //  remove the class 'hideHeader' to show it
+    if (header.classList.contains('hideHeader')) {
+
+        header.classList.remove('hideHeader');
+    }
+
+    //  else, if the viewport is not at the top of the page,
+    //  add the class 'hideHeader' to hide it
+    else if (!(bodyTopOffset >= 0 && bodyTopOffset <= 224)) {
+
+        header.classList.add('hideHeader');
+    }
+}
 /**
  * End Main Functions
  * Begin Events
@@ -268,7 +291,13 @@ let toggleHeaderScroll = () => {
 // Build menu
 buildNav();
 
-//  Scroll to section on link click
+//  when the cursor enters the header, show it
+header.addEventListener('mouseenter', toggleHeaderMouse);
+
+//  when the cursor leaves the header, hide it
+header.addEventListener('mouseleave', toggleHeaderMouse);
+
+//  scroll to section on link click
 navList.addEventListener('click', scrollToSection);
 
 //  Set sections as active
