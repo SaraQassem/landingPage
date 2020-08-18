@@ -84,7 +84,7 @@ let activateLink = (relatedSection) => {
             navLink.classList.add('activeNavLink');
         }
     }
-}
+};
 
 
 //  this function scrolls the window smoothly to the given top offset
@@ -95,7 +95,7 @@ let scrollToTopSmoothly = (topOffset) => {
         top: topOffset,
 
         behavior: "smooth"
-    })
+    });
 
 };
 
@@ -257,7 +257,7 @@ let toggleHeaderScroll = () => {
             //  set the delay
         }, 800);
     }
-}
+};
 
 
 //  this function toggles the display of the header,
@@ -281,7 +281,7 @@ let toggleHeaderMouse = () => {
 
         header.classList.add('hideHeader');
     }
-}
+};
 /**
  * End Main Functions
  * Begin Events
