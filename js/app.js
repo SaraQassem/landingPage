@@ -86,6 +86,92 @@ let activateLink = (relatedSection) => {
     }
 };
 
+// Add class 'active' to section when near top of viewport
+let activateSection = () => {
+
+    //  loop through all the sections in the page
+    for (let section of pageSections) {
+
+        //  get the top offset of the section from the viewport
+        let topOffset = section.getBoundingClientRect().y;
+
+        //  if the offset is between 0 and 200 (the section is near the top of the viewport)
+        if (topOffset >= 0 && topOffset <= 200) {
+
+            //  remove the 'activeSection' class from the last active section
+            document.getElementsByClassName('activeSection')[0]
+                .classList.remove('activeSection');
+
+            //  add the 'activeSection' class to the current active section
+            section.classList.add('activeSection');
+
+            //  mark the related navigation link as active
+            activateLink(section);
+
+            break;
+        }
+    }
+};
+
+
+//  This function calculates the top offset of the body from the viewport,
+//  and if the offset is bigger than the height where the 'back to Top' button should appear (bodyFoldHeight),
+//  it adds the 'showButton' class to it.
+//  Else when the user scrolls back to the top where the top offset of the body is less than bodyFoldHeight,
+//  then the button should be hidden again by removing the 'showButton' class
+let showBackToTopButton = () => {
+
+    let bodyOffset = document.body.getBoundingClientRect().y;
+
+    if (Math.abs(bodyOffset) > bodyFoldHeight) {
+
+        backToTopButton.classList.add('showButton');
+    }
+
+    else {
+
+        backToTopButton.classList.remove('showButton');
+    }
+};
+
+
+//  this function toggles the display of the header,
+//  if the header is hidden, it removes the 'hideHeader' class to display it,
+//  if the header is shown, it adds the 'hideHeader' class with a delay of 800ms after the scrolling stop
+let toggleHeaderScroll = () => {
+
+    //  if the header is hidden,
+    //  remove the class 'hideHeader' to show it
+    if (header.classList.contains('hideHeader')) {
+
+        header.classList.remove('hideHeader');
+    }
+
+        //  if the header is shown,
+    //  hide it after the user stops scrolling with a delay of 800ms
+    else {
+
+        //  clear the stop scrolling timeout
+        window.clearTimeout(isScrolling);
+
+        //  set a timeout to run after scrolling ends
+        isScrolling = setTimeout(function() {
+
+            //  get the top offset of the <body> from the viewport
+            let bodyTopOffset = document.body.getBoundingClientRect().y;
+
+            //  if the user is not in the top of the page, hide the header
+            if (!(bodyTopOffset >= 0 && bodyTopOffset <= 224)) {
+
+                //  hide the header
+                header.classList.add('hideHeader');
+            }
+
+            //  set the delay
+        }, 800);
+    }
+};
+
 
 //  this function scrolls the window smoothly to the given top offset
 let scrollToTopSmoothly = (topOffset) => {
@@ -152,34 +238,6 @@ let buildNav = () => {
 };
 
 
-// Add class 'active' to section when near top of viewport
-let activateSection = () => {
-
-    //  loop through all the sections in the page
-    for (let section of pageSections) {
-
-        //  get the top offset of the section from the viewport
-        let topOffset = section.getBoundingClientRect().y;
-
-        //  if the offset is between 0 and 200 (the section is near the top of the viewport)
-        if (topOffset >= 0 && topOffset <= 200) {
-
-            //  remove the 'activeSection' class from the last active section
-            document.getElementsByClassName('activeSection')[0]
-                .classList.remove('activeSection');
-
-            //  add the 'activeSection' class to the current active section
-            section.classList.add('activeSection');
-
-            //  mark the related navigation link as active
-            activateLink(section);
-
-            break;
-        }
-    }
-};
-
-
 // Scroll to anchor ID using scrollTO event
 let scrollToSection = (evt)=> {
 
@@ -198,64 +256,6 @@ let scrollToSection = (evt)=> {
 
         //  scroll the window smoothly to the calculated top offset
         scrollToTopSmoothly(relatedSectionTopOffset);
-    }
-};
-
-
-//  This function calculates the top offset of the body from the viewport,
-//  and if the offset is bigger than the height where the 'back to Top' button should appear (bodyFoldHeight),
-//  it adds the 'showButton' class to it.
-//  Else when the user scrolls back to the top where the top offset of the body is less than bodyFoldHeight,
-//  then the button should be hidden again by removing the 'showButton' class
-let showBackToTopButton = () => {
-
-    let bodyOffset = document.body.getBoundingClientRect().y;
-
-    if (Math.abs(bodyOffset) > bodyFoldHeight) {
-
-        backToTopButton.classList.add('showButton');
-    }
-
-    else {
-
-        backToTopButton.classList.remove('showButton');
-    }
-};
-
-//  this function toggles the display of the header,
-//  if the header is hidden, it removes the 'hideHeader' class to display it,
-//  if the header is shown, it adds the 'hideHeader' class with a delay of 800ms after the scrolling stop
-let toggleHeaderScroll = () => {
-
-    //  if the header is hidden,
-    //  remove the class 'hideHeader' to show it
-    if (header.classList.contains('hideHeader')) {
-
-        header.classList.remove('hideHeader');
-    }
-
-    //  if the header is shown,
-    //  hide it after the user stops scrolling with a delay of 800ms
-    else {
-
-        //  clear the stop scrolling timeout
-        window.clearTimeout(isScrolling);
-
-        //  set a timeout to run after scrolling ends
-        isScrolling = setTimeout(function() {
-
-            //  get the top offset of the <body> from the viewport
-            let bodyTopOffset = document.body.getBoundingClientRect().y;
-
-            //  if the user is not in the top of the page, hide the header
-            if (!(bodyTopOffset >= 0 && bodyTopOffset <= 224)) {
-
-                //  hide the header
-                header.classList.add('hideHeader');
-            }
-
-            //  set the delay
-        }, 800);
     }
 };
 
@@ -282,6 +282,20 @@ let toggleHeaderMouse = () => {
         header.classList.add('hideHeader');
     }
 };
+
+
+//  this function contains all the listeners for the 'scroll' event of the window object
+let windowScrollEventListeners = () => {
+
+    //  Set sections as active
+    activateSection();
+
+    //  show the 'Back to Top' button when the user scrolls to the bottom of the page
+    showBackToTopButton();
+
+    //  hide the header after the user stops scrolling
+    toggleHeaderScroll();
+}
 /**
  * End Main Functions
  * Begin Events
@@ -300,14 +314,7 @@ header.addEventListener('mouseleave', toggleHeaderMouse);
 //  scroll to section on link click
 navList.addEventListener('click', scrollToSection);
 
-//  Set sections as active
-window.addEventListener('scroll', activateSection);
-
-//  show the 'Back to Top' button when the user scrolls to the bottom of the page
-window.addEventListener('scroll', showBackToTopButton);
-
-//  hide the header after the user stops scrolling
-window.addEventListener('scroll', toggleHeaderScroll);
+window.addEventListener('scroll', windowScrollEventListeners);
 
 //  when the button is clicked, scroll smoothly to the top of the document
 backToTopButton.addEventListener('click', scrollToTopSmoothly);
