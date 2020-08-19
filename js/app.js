@@ -134,11 +134,8 @@ let showBackToTopButton = () => {
     }
 };
 
-
-//  this function toggles the display of the header,
-//  if the header is hidden, it removes the 'hideHeader' class to display it,
-//  if the header is shown, it adds the 'hideHeader' class with a delay of 800ms after the scrolling stop
-let toggleHeaderScroll = () => {
+//  this function removes the 'hideHeader' class to display it
+let showHeader = () => {
 
     //  if the header is hidden,
     //  remove the class 'hideHeader' to show it
@@ -146,10 +143,34 @@ let toggleHeaderScroll = () => {
 
         header.classList.remove('hideHeader');
     }
+};
 
-        //  if the header is shown,
+//  this function adds the 'hideHeader' class to the header to hide it
+let hideHeader = () => {
+
+    //  get the top offset of the <body> from the viewport
+    let bodyTopOffset = document.body.getBoundingClientRect().y;
+
+    //  if the viewport is not at the top of the page,
+    //  add the class 'hideHeader' to hide it
+    if (!(bodyTopOffset >= 0 && bodyTopOffset <= 224)) {
+
+        header.classList.add('hideHeader');
+    }
+};
+
+
+//  this function toggles the display of the header,
+//  if the header is hidden, it removes the 'hideHeader' class to display it,
+//  if the header is shown, it adds the 'hideHeader' class with a delay of 800ms after the scrolling stop
+let toggleHeaderScroll = () => {
+
+    //  if the header is hidden, show it
+    showHeader();
+
+    //  if the header is shown,
     //  hide it after the user stops scrolling with a delay of 800ms
-    else {
+    if (!(header.classList.contains('hideHeader'))) {
 
         //  clear the stop scrolling timeout
         window.clearTimeout(isScrolling);
@@ -157,15 +178,7 @@ let toggleHeaderScroll = () => {
         //  set a timeout to run after scrolling ends
         isScrolling = setTimeout(function() {
 
-            //  get the top offset of the <body> from the viewport
-            let bodyTopOffset = document.body.getBoundingClientRect().y;
-
-            //  if the user is not in the top of the page, hide the header
-            if (!(bodyTopOffset >= 0 && bodyTopOffset <= 224)) {
-
-                //  hide the header
-                header.classList.add('hideHeader');
-            }
+            hideHeader();
 
             //  set the delay
         }, 800);
@@ -260,30 +273,6 @@ let scrollToSection = (evt)=> {
 };
 
 
-//  this function toggles the display of the header,
-//  if the header is hidden, it removes the 'hideHeader' class to display it,
-//  if the header is shown, it adds the 'hideHeader' class to hide it
-let toggleHeaderMouse = () => {
-
-    //  get the top offset of the <body> from the viewport
-    let bodyTopOffset = document.body.getBoundingClientRect().y;
-
-    //  if the header is hidden,
-    //  remove the class 'hideHeader' to show it
-    if (header.classList.contains('hideHeader')) {
-
-        header.classList.remove('hideHeader');
-    }
-
-    //  else, if the viewport is not at the top of the page,
-    //  add the class 'hideHeader' to hide it
-    else if (!(bodyTopOffset >= 0 && bodyTopOffset <= 224)) {
-
-        header.classList.add('hideHeader');
-    }
-};
-
-
 //  this function contains all the listeners for the 'scroll' event of the window object
 let windowScrollEventListeners = () => {
 
@@ -306,10 +295,10 @@ let windowScrollEventListeners = () => {
 buildNav();
 
 //  when the cursor enters the header, show it
-header.addEventListener('mouseenter', toggleHeaderMouse);
+header.addEventListener('mouseenter', showHeader);
 
 //  when the cursor leaves the header, hide it
-header.addEventListener('mouseleave', toggleHeaderMouse);
+header.addEventListener('mouseleave', hideHeader);
 
 //  scroll to section on link click
 navList.addEventListener('click', scrollToSection);
