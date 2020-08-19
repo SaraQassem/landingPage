@@ -264,8 +264,9 @@ let scrollToSection = (evt)=> {
         const relatedSection = document.getElementById(
             evt.target.getAttribute('href').replace('#', '')),
 
-            //  get the top offset of the related section
-            relatedSectionTopOffset = relatedSection.offsetTop;
+            //  get the top offset of the related section,
+            //  and sub 20px (small margin) for the section to be displayed clearly
+            relatedSectionTopOffset = relatedSection.offsetTop - 20;
 
         //  scroll the window smoothly to the calculated top offset
         scrollToTopSmoothly(relatedSectionTopOffset);
@@ -284,7 +285,7 @@ let windowScrollEventListeners = () => {
 
     //  hide the header after the user stops scrolling
     toggleHeaderScroll();
-}
+};
 /**
  * End Main Functions
  * Begin Events
