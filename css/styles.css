@@ -85,7 +85,6 @@ section {
 .navbar__menu .menu__link:hover, .navbar__menu .menu__link.activeNavLink {
     background: #333;
     color: #fff;
-    transition: all 0.3s ease;
 }
 
 /* Header Styles */
