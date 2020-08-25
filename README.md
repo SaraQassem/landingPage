@@ -3,10 +3,10 @@ This project contains a simple dynamic landing page with an auto-filled navigati
 
 ## Table of Contents
 
-* [Main Functions](#Main Functions)
-* [Helper Functions](#Helper Functions)
+* [Main Functions](#Main-Functions)
+* [Helper Functions](#Helper-Functions)
 * [Resources](#Resources)
-* [Live Preview](#Live Preview)
+* [Live Preview](#Live-Preview)
 
 ## Main Functions
 
